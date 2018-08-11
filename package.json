@@ -1,0 +1,42 @@
+{
+  "name": "dev-workflow-helper",
+  "version": "1.0.0",
+  "description": "GitHub workflow improvements for developers",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "deploy": "echo 'TODO Not implemented yet.'",
+    "fix:js": "eslint --fix .",
+    "lint:js": "eslint .",
+    "make:manifest": "node bin/make-manifest.js",
+    "test": "echo 'TODO Not implemented yet.'",
+    "watch": "webpack --watch --config webpack.dev.js"
+  },
+  "keywords": [
+    "git",
+    "GitHub",
+    "workflow",
+    "pull",
+    "request"
+  ],
+  "author": "Cody Crow",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "chrome-webstore-upload": "^0.2.2",
+    "eslint": "^5.3.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0",
+    "webpack-merge": "^4.1.4",
+    "webpack-shell-plugin": "^0.5.0"
+  }
+}

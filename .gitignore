@@ -1,0 +1,6 @@
+.DS_Store
+.idea
+*.xpi
+dist
+node_modules
+*.map
