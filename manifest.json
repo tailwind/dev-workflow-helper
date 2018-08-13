@@ -20,7 +20,7 @@
       ]
     }
   ],
-  "content_security_policy": "img-src *; object-src 'self'",
+  "content_security_policy": "script-src 'self'; img-src *; object-src 'self'",
   "manifest_version": 2,
   "description": "Improve your workflow on GitHub.",
   "name": "Dev Workflow Helper",
