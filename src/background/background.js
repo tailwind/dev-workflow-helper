@@ -20,3 +20,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       sendResponse({});
   }
 });
+
+/**
+ * GitHub uses the History API for client-side navigation. Since the content script only runs
+ * on page load, we need to retrigger it on every virtual page change.
+ */
+chrome.webNavigation.onHistoryStateUpdated.addListener(function(details) {
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {method: 'RUN_CONTENT_SCRIPT'});
+  });
+});
