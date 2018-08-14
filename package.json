@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
+    "dist": "zip dist/build.zip dist/build/** dist/build/**/*.*",
     "deploy": "echo 'TODO Not implemented yet.'",
     "fix:js": "eslint --fix .",
     "lint:js": "eslint .",
