@@ -1,4 +1,4 @@
-import {reviewerChecklist, selectors} from '../config';
+import {reviewerChecklist, selectors} from '../../config/index';
 
 /**
  * Inject the reviewer template into the PR reviewer text boxes
@@ -7,13 +7,13 @@ export const injectReviewerTemplate = () => {
   /**
    * @type {Node[]}
    */
-  const reviewerCommentBoxes = Array.from(document.querySelectorAll(selectors.pullRequests.newCommentBox));
+  const reviewerCommentBoxes = Array.from(document.querySelectorAll(selectors.github.pullRequests.newCommentBox));
 
   /**
    *
    * @type {Node[]}
    */
-  const reviewBodies = Array.from(document.querySelectorAll(selectors.pullRequests.reviewBox));
+  const reviewBodies = Array.from(document.querySelectorAll(selectors.github.pullRequests.reviewBox));
 
   /**
    * It's likely that one of these DOM elements doesn't exist, but it's possible, so we need to
