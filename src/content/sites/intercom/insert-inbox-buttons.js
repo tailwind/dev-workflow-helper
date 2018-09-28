@@ -3,7 +3,7 @@ import {waitForSelector} from '../wait-for-selector';
 
 const onhover = e => {
   e.target.style.opacity = .9;
-}
+};
 
 const buttonOptions = [
   {
@@ -38,9 +38,9 @@ const buttonOptions = [
     onhover
   },
   {
-    text: '⚙ View Admin️',
+    text: '⚙ View Admin',
     onclick: async e => {
-      const orgId = await getOrgId();
+      const {companyId: orgId} = await getOrgId();
       console.log(orgId);
 
       const adminDashboardUrl = orgId => `https://admin.tailwindapp.com/customers?org_id=${orgId}`;
@@ -55,9 +55,6 @@ const buttonOptions = [
   }
 ];
 
-/**
- * TODO handle multiple orgs e.g. if TW person gets added
- */
 export const insertInboxButtons = async () => {
   try {
     await waitForSelector(selectors.intercom.sidebar.buttonAnchor);
@@ -114,6 +111,10 @@ const createButton = (options = {}) => {
   return button;
 };
 
+/**
+ * @author Alex McKenzie
+ * @returns {Promise<any>}
+ */
 function getChargifyData() {
   return new Promise(resolve => {
     const showXpath = document.evaluate(selectors.intercom.chargifyXPath, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
@@ -133,14 +134,31 @@ function getChargifyData() {
   })
 }
 
-function getOrgId() {
+/**
+ * @author Alex McKenzie
+ * @param {boolean} shouldRetry
+ * @returns {Promise<any>}
+ */
+function getOrgId(shouldRetry = true) {
   return new Promise(resolve => {
     const companyElements = document.querySelectorAll('[data-key="company.remote_company_id"] a');
+    let companyId;
     companyElements.forEach(companyElement => {
-      let companyId = companyElement.innerText;
-      if(!isNaN(Number(companyId))) {
-        return resolve(companyId);
+      let companyInnerText = companyElement.innerText;
+      if(!isNaN(Number(companyInnerText))) {
+        companyId = companyInnerText;
       }
-    })
+    });
+    if (!companyId && shouldRetry) {
+      const showXpath = document.evaluate("//span[contains(., 'Companies')]", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+      showXpath.snapshotItem(0).click();
+      setTimeout(() => {
+        getOrgId(false).then(orgId => {
+          resolve(orgId);
+        })
+      }, 0);
+    } else {
+      resolve({companyId});
+    }
   })
 }
