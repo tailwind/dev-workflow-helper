@@ -6,6 +6,18 @@ Hitting `view diff` under a log will show the files changed since the previous e
 
 If any of the `view diff`s below don't work try `git push origin --tags`
 
+## 1.1.1
+
+- Retry org ID resolution in Intercom 
+
+[view diff](https://github.com/tailwind/dev-workflow-helper/compare/v1.1.0...v1.1.1)
+
+## 1.1.0
+
+- Add Account/Chargify/Admin buttons to Intercom 
+
+[view diff](https://github.com/tailwind/dev-workflow-helper/compare/v1.0.1...v1.1.0)
+
 ## 1.0.1
 
 - Run the content script on every page change with client-side routing with the History API
