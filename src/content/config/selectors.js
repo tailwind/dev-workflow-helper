@@ -27,11 +27,14 @@ export const selectors = {
     }
   },
   intercom: {
+    buttonContainerId: 'tw-intercom-button-container',
     sidebar: {
       buttonAnchor: '.profile-sidebar-section__regular-padding',
       custIdHolder: '*[data-key=user_id] .t__solo-link'
     },
     chargifyXPath: '//span[contains(., \'Show\')]',
-    chargifyIdHolder: '[data-key="custom_data.chargify_id"] a'
+    chargifyIdHolder: '[data-key="custom_data.chargify_id"] a',
+    companyIdHolder: '[data-key="company.remote_company_id"] a',
+    companyInfoXPath: '//span[contains(., \'Companies\')]'
   }
 };

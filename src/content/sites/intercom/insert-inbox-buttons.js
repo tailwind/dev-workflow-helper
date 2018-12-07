@@ -25,9 +25,24 @@ const buttonOptions = [
     text: '💰 View Chargify',
     onclick: async e => {
       const {chargifyID} = await getChargifyData();
-      console.log(chargifyID);
 
       if (chargifyID) {
+
+        /**
+         * Calling getChargifyData will scroll the sidebar to the bottom, which means you would have
+         * to scroll up to the top of the sidebar every time. This fixes that issue by scrolling to
+         * the topmost element in the sidebar.
+         */
+        const buttonContainer = document.getElementById(selectors.intercom.buttonContainerId);
+        if (buttonContainer) {
+          /**
+           * Intercom will steal focus and scroll the page down again. This timeout gives us plenty
+           * of time to let that happen while being short enough that it won't be noticeable, since
+           * this click handler opens a new tab and it will (effectively) happen in the background.
+           */
+          setTimeout(() => buttonContainer.scrollIntoView(), 500);
+        }
+
         window.open(`https://tailwind.chargify.com/customers/${chargifyID}`, '_blank');
       }
     },
@@ -79,7 +94,7 @@ export const insertInboxButtons = async () => {
 
 const createButtons = (buttonOptions = []) => {
   const buttonContainer = document.createElement('div');
-  buttonContainer.id = 'tw-intercom-button-container';
+  buttonContainer.id = selectors.intercom.buttonContainerId;
   buttonContainer.style.display = 'flex';
   buttonContainer.style.flexDirection = 'column';
   buttonContainer.style.height = '132px';
@@ -141,7 +156,7 @@ function getChargifyData() {
  */
 function getOrgId(shouldRetry = true) {
   return new Promise(resolve => {
-    const companyElements = document.querySelectorAll('[data-key="company.remote_company_id"] a');
+    const companyElements = document.querySelectorAll(selectors.intercom.companyIdHolder);
     let companyId;
     companyElements.forEach(companyElement => {
       let companyInnerText = companyElement.innerText;
@@ -150,7 +165,7 @@ function getOrgId(shouldRetry = true) {
       }
     });
     if (!companyId && shouldRetry) {
-      const showXpath = document.evaluate("//span[contains(., 'Companies')]", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+      const showXpath = document.evaluate(selectors.intercom.companyInfoXPath, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
       showXpath.snapshotItem(0).click();
       setTimeout(() => {
         getOrgId(false).then(orgId => {
