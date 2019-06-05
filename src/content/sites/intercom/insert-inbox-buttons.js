@@ -2,7 +2,7 @@ import {selectors} from '../../config';
 import {waitForSelector} from '../wait-for-selector';
 
 const onhover = e => {
-  e.target.style.opacity = .9;
+  e.target.style.opacity = 0.9;
 };
 
 const buttonOptions = [
@@ -27,7 +27,6 @@ const buttonOptions = [
       const {chargifyID} = await getChargifyData();
 
       if (chargifyID) {
-
         /**
          * Calling getChargifyData will scroll the sidebar to the bottom, which means you would have
          * to scroll up to the top of the sidebar every time. This fixes that issue by scrolling to
@@ -86,7 +85,7 @@ export const insertInboxButtons = async () => {
     const buttonAnchor = document.querySelector(selectors.intercom.sidebar.buttonAnchor);
     const buttons = createButtons(buttonOptions);
 
-    buttonAnchor.insertAdjacentElement('beforeend', buttons);
+    buttonAnchor.insertAdjacentElement('beforebegin', buttons);
   } catch (e) {
     console.error("Can't find the button anchor element");
   }
@@ -130,7 +129,7 @@ const createButton = (options = {}) => {
  * @author Alex McKenzie
  * @returns {Promise<any>}
  */
-function getChargifyData() {
+function getChargifyData () {
   return new Promise(resolve => {
     const showXpath = document.evaluate(selectors.intercom.chargifyXPath, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
 
@@ -143,10 +142,9 @@ function getChargifyData() {
     setTimeout(() => {
       const chargifyID = document.querySelector(selectors.intercom.chargifyIdHolder).innerText;
 
-      resolve({ chargifyID })
+      resolve({ chargifyID });
     }, 0);
-
-  })
+  });
 }
 
 /**
@@ -154,13 +152,13 @@ function getChargifyData() {
  * @param {boolean} shouldRetry
  * @returns {Promise<any>}
  */
-function getOrgId(shouldRetry = true) {
+function getOrgId (shouldRetry = true) {
   return new Promise(resolve => {
     const companyElements = document.querySelectorAll(selectors.intercom.companyIdHolder);
     let companyId;
     companyElements.forEach(companyElement => {
       let companyInnerText = companyElement.innerText;
-      if(!isNaN(Number(companyInnerText))) {
+      if (!isNaN(Number(companyInnerText))) {
         companyId = companyInnerText;
       }
     });
@@ -170,10 +168,10 @@ function getOrgId(shouldRetry = true) {
       setTimeout(() => {
         getOrgId(false).then(orgId => {
           resolve(orgId);
-        })
+        });
       }, 0);
     } else {
       resolve({companyId});
     }
-  })
+  });
 }
